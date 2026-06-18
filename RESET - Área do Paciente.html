@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)file:///D:/reset/Cabe%C3%A7a.html -->
+<html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RESET - Área do Paciente</title>
+
+    <link href="./RESET - Área do Paciente_files/css2" rel="stylesheet">
+
+    <style>
+        /* CONFIGURAÇÕES GERAIS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #ffffff;
+        }
+
+        /* HEADER (Atualizado para o estilo clean da imagem) */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #ffffff;
+            padding: 3px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 700;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .logo img {
+            width: 300px;
+            height: auto;
+            display: block;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav a {
+            color: #0F3962;
+            margin-left: 30px;
+            text-decoration: none;
+            transition: 0.3s;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            color: #3B71FE;
+        }
+
+        /* Botão "Buscar ajuda" no Header */
+        .nav-btn {
+            background: #0F3962;
+            color: #ffffff !important;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #1e4f85;
+            transform: translateY(-1px);
+        }
+
+        /* =========================================
+   MENU LATERAL (3 BARRINHAS)
+   ========================================= */
+.menu-btn {
+    display: none; /* Escondido no desktop se quiser, ou deixe flex para aparecer sempre */
+    cursor: pointer;
+    background: #EEF2FF;
+    padding: 10px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.menu-btn:hover {
+    background: #E0E7FF;
+}
+
+/* Visível em telas menores ou como menu principal */
+@media(max-width: 992px) {
+    .desktop-nav { display: none !important; }
+    .menu-btn { display: flex; }
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Escondido fora da tela */
+    width: 280px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+    transition: 0.4s ease-in-out;
+    z-index: 2000;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.aberta {
+    right: 0;
+}
+
+.fechar-menu {
+    align-self: flex-end;
+    cursor: pointer;
+    font-size: 24px;
+    color: #0F3962;
+    margin-bottom: 20px;
+    background: none;
+    border: none;
+    font-weight: bold;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #64748B;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: 0.3s;
+}
+
+.sidebar a:hover, .sidebar a.ativo {
+    background: #EEF2FF;
+    color: #091931;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1500;
+    display: none;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.overlay.ativo {
+    display: block;
+    opacity: 1;
+}
+
+/* =========================================
+   SEÇÃO DE PLANOS
+   ========================================= */
+.planos-section {
+    background: #F8FAFC;
+    padding: 100px 40px;
+}
+
+.planos-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.card-plano {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 340px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-plano:hover {
+    transform: translateY(-8px);
+    border-color: #3B71FE;
+    box-shadow: 0 15px 40px rgba(59, 113, 254, 0.1);
+}
+
+.plano-destaque {
+    border: 2px solid #3B71FE;
+    transform: scale(1.05);
+}
+
+.plano-destaque:hover {
+    transform: scale(1.05) translateY(-8px);
+}
+
+.badge-desconto {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #DCFCE7;
+    color: #16A34A;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.card-plano h3 {
+    color: #0F3962;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.plano-preco {
+    font-size: 36px;
+    color: #0a1931;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.plano-preco span {
+    font-size: 16px;
+    color: #64748B;
+    font-weight: normal;
+}
+
+.lista-beneficios {
+    list-style: none;
+    margin-bottom: 30px;
+    padding: 0;
+}
+
+.lista-beneficios li {
+    color: #475569;
+    font-size: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.lista-beneficios li::before {
+    content: "✓";
+    color: #3B71FE;
+    font-weight: bold;
+}
+
+.btn-plano {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #EEF2FF;
+    color: #3B71FE;
+    padding: 15px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-plano.primario {
+    background: #3B71FE;
+    color: #ffffff;
+}
+
+.btn-plano:hover {
+    background: #0F3962;
+    color: #ffffff;
+}
+
+@media(max-width: 768px) {
+    .plano-destaque {
+        transform: scale(1);
+    }
+    .plano-destaque:hover {
+        transform: translateY(-8px);
+    }
+}
+
+        /* HERO SECTION (Novo Layout Lado a Lado da Imagem) */
+        .hero {
+            min-height: 90vh;
+            background: linear-gradient(to right, #ffffff, #0d214dd0);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 140px 80px 80px 80px;
+            gap: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Efeito de brilho azul sutil no fundo superior direito */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(122, 202, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 580px;
+            z-index: 2;
+        }
+
+        .hero-label {
+            color: #144492;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: 54px;
+            color: #0F3962;
+            line-height: 1.15;
+            font-weight: bold;
+            margin-bottom: 24px;
+        }
+
+        .hero .descricao {
+            font-size: 16px;
+            color: #64748B;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        /*ESSES PACIENTE CONFIAM NA RESET*/
+        .hero-pacientes {
+    display: flex;
+    align-items: center;
+    margin-top: 35px;
+    gap: 16px;
+}
+
+.hero-pacientes img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    margin-left: -12px;
+}
+
+.hero-pacientes img:first-child {
+    margin-left: 0;
+}
+
+.pacientes-texto {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.pacientes-texto strong {
+    color: #0F3962;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.pacientes-texto span {
+    color: #0a1931;
+    font-size: 15px;
+}
+
+        .hero-btn-primary {
+            padding: 15px 32px;
+            background: #0F3962;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(15, 57, 98, 0.15);
+        }
+
+        .hero-btn-primary:hover {
+            background: #1e4f85;
+            transform: translateY(-1px);
+        }
+
+        .hero-btn-secondary {
+            color: #0F3962;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            transition: 0.3s;
+        }
+
+        .hero-btn-secondary:hover {
+            color: #3B71FE;
+        }
+
+      /* =========================================
+           SLIDESHOW HERO (FADE SUAVE)
+           ========================================= */
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            margin-top: 70px;
+        }
+
+        .slideshow-calmo {
+            position: relative;
+            width: 100%;
+            max-width: 620px;
+            /* Mantém a caixa na mesma proporção para não dar pulos na tela */
+            aspect-ratio: 4 / 3; 
+        }
+
+        .slideshow-calmo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 32px;
+            box-shadow: 0 50px 120px #0000000f;
+            position: absolute; /* Coloca as fotos uma por cima da outra */
+            top: 0;
+            left: 0;
+            opacity: 0;
+            /* Animação total de 15 segundos (5s por imagem) */
+            animation: fadeCalmo 10s infinite;
+        }
+
+        /* Define a ordem de entrada de cada imagem atrasando o início da animação */
+        .slideshow-calmo img:nth-child(1) { animation-delay: 0s; }
+        .slideshow-calmo img:nth-child(2) { animation-delay: 3s; }
+        .slideshow-calmo img:nth-child(3) { animation-delay: 6s; }
+        .slideshow-calmo img:nth-child(4) { animation-delay: 9s; }
+
+        /* Cria o efeito de surgir (1), ficar um tempo visível, e desaparecer (0) */
+        @keyframes fadeCalmo {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            33% { opacity: 1; }
+            45% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+            border-radius: 32px; /* Curvatura idêntica à foto */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+        }
+
+        /* SECTIONS BASE */
+        section {
+            padding: 100px 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h2 {
+            font-family: 'Tenor Sans', sans-serif;
+            margin-bottom: 20px;
+            color: #0a1931;
+        }
+
+        /* SOBRE */
+        .sobre {
+            background: #fff;
+        }
+
+        .sobre p {
+            line-height: 1.7;
+            font-size: 18px;
+        }
+
+        /* ESPECIALIDADES / SERVIÇOS */
+        .servicos {
+            background: #FAFAFA;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 650px;
+        }
+
+        .section-label {
+            color: #3B71FE;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .section-header h2 {
+            font-size: 38px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #0a1931;
+        }
+
+        .section-header p {
+            color: #64748B;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .servicos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .card-especialidade {
+            background: #fff;
+            border: 1px solid #F1F5F9;
+            border-radius: 16px;
+            padding: 32px;
+            text-align: left;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-especialidade:hover,
+        .card-especialidade.active {
+            border-color: #A5B4FC;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .icon-blue { background: #EEF2FF; color: #4F46E5; }
+        .icon-green { background: #ECFDF5; color: #10B981; }
+        .icon-orange { background: #FFF7ED; color: #F97316; }
+        .icon-red { background: #FEF2F2; color: #EF4444; }
+        .icon-dark { background: #F1F5F9; color: #334155; }
+
+        .card-especialidade h3 {
+            font-size: 22px;
+            color: #0a1931;
+            margin-bottom: 12px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .card-especialidade p {
+            color: #64748B;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: #F8FAFC;
+            color: #64748B;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* =========================================
+   CARROSSEL DE ESPECIALISTAS (LOOP INFINITO)
+   ========================================= */
+
+.carrossel-reset {
+    padding: 60px 0;
+    background-color: #fafafa;
+    overflow: hidden; /* Garante que nada vaze da seção */
+}
+
+.carrossel-reset h2 {
+    text-align: center;
+    color: #0F3962; /* Aquele tom de azul escuro elegante */
+    margin-bottom: 40px;
+    font-size: 32px;
+}
+
+.slider {
+    width: 100%;
+    overflow: hidden; /* Esconde os cards que estão fora da tela */
+    padding: 10px 0 30px 0; /* Espaço para a sombra do card não cortar */
+}
+
+.slide-track {
+    display: flex;
+    gap: 30px; /* Espaço entre cada card */
+    width: max-content;
+    /* 20s é o tempo da volta. Aumente para deixar mais lento, diminua para mais rápido */
+    animation: scroll-infinito 20s linear infinite; 
+}
+
+/* Diferencial: Pausa a rolagem quando o usuário passa o mouse para ler */
+.slider:hover .slide-track {
+    animation-play-state: paused;
+}
+
+.slide-card {
+    width: 280px; 
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    flex-shrink: 0; /* Impede que o flexbox esmague os cards */
+    transition: transform 0.3s ease;
+}
+
+/* Efeito sutil ao passar o mouse em um card específico */
+.slide-card:hover {
+    transform: translateY(-5px);
+}
+
+.slide-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover; /* Deixa todas as fotos perfeitamente enquadradas sem amassar */
+    object-position: center top; /* Foca mais no rosto se a foto for comprida */
+}
+
+.slide-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.slide-info h4 {
+    color: #0F3962;
+    font-size: 20px;
+    margin: 0 0 5px 0;
+    font-weight: 700;
+}
+
+.slide-info p {
+    color: #64748B;
+    margin: 0;
+    font-size: 15px;
+}
+
+/* A MÁGICA DO MOVIMENTO */
+/* O cálculo -15px compensa exatamente a metade do gap de 30px para o loop ser imperceptível */
+@keyframes scroll-infinito {
+    0% { 
+        transform: translateX(0); 
+    }
+    100% { 
+        transform: translateX(calc(-50% - 15px)); 
+    }
+}
+
+        /* SITE FOOTER */
+        .site-footer {
+            background-color: #0a1931;
+            color: #94A3B8;
+            padding: 60px 40px 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .brand-col {
+            flex: 1.5;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo-image {
+            max-width: 300px;
+            height: auto;
+            display: block;
+        }
+
+        .brand-col p {
+            line-height: 1.6;
+            font-size: 14px;
+            max-width: 280px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-size: 14px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-col ul li a {
+            color: #94A3B8;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1100px;
+            margin: 40px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid #2e3a4e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .contact-col svg {
+            width: 16px;
+            height: 16px;
+            stroke: #3B82F6;
+        }
+
+        /* CHATBOT */
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #3B82F6;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: 0.3s;
+            border: none;
+            padding: 0;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-button svg {
+            width: 28px;
+            height: 28px;
+            fill: none;
+            stroke: white;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .chat-box {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 340px;
+            height: 480px;
+            background: #f4f4f4;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: 0.3s;
+            z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-box.active {
+            transform: scale(1);
+        }
+
+        .chat-header {
+            background: #7acaff;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+        }
+
+        .chat-messages {
+            padding: 10px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            font-size: 14px;
+        }
+
+        .bot { background: #d9edf7; }
+        .user { background: #c8f7c5; margin-left: auto; }
+
+        .chat-input {
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            display: flex;
+            gap: 5px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .chat-input button {
+            background: #7acaff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .close-btn {
+            position: absolute;
+            bottom: -20px;
+            right: 10px;
+            background: #7acaff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        /* RESPONSIVIDADE INTERMEDIÁRIA E MOBILE */
+        @media(max-width: 992px) {
+            header {
+                padding: 20px 40px;
+            }
+            .hero {
+                flex-direction: column;
+                padding: 140px 40px 60px 40px;
+                text-align: center;
+                gap: 40px;
+            }
+            .hero-content {
+                max-width: 100%;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .hero h1 {
+                font-size: 42px;
+            }
+        }
+
+        @media(max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+                position: static;
+            }
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            nav a {
+                margin: 0 10px;
+                font-size: 14px;
+            }
+            .nav-btn {
+                padding: 6px 16px;
+            }
+            .hero {
+                padding: 40px 20px;
+            }
+            .hero h1 {
+                font-size: 32px;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+            }
+            .hero-btn-primary {
+                width: 100%;
+                text-align: center;
+            }
+            .servicos-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-container {
+                flex-direction: column;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+   <!-- =========================================
+HEADER
+========================================= -->
+<header>
+    <div class="logo">
+        <img src="./RESET - Área do Paciente_files/LOGO ARQUIVO DEITADO (2).png" alt="Logo RESET">
+    </div>
+
+    <!-- MENU DESKTOP -->
+    <nav class="desktop-nav">
+        <a href="file:///D:/reset/Cabe%C3%A7a.html#">Home</a>
+        <a href="file:///D:/reset/Cabe%C3%A7a.html#servicos">Especialidades</a>
+        <a href="file:///D:/reset/saibamais.html">Sobre</a>
+        <a href="file:///D:/reset/equipe.html">Equipe</a>
+        <a href="file:///D:/reset/contatp.html">Contato</a>
+        <a href="file:///D:/reset/agendamento.html" class="nav-btn">Buscar ajuda</a>
+    </nav>
+
+    <!-- BOTÃO MENU MOBILE -->
+    <div class="menu-btn" onclick="abrirMenu()">
+        ☰
+    </div>
+</header>
+
+<!-- OVERLAY -->
+<div class="overlay" id="menuOverlay" onclick="fecharMenu()"></div>
+
+<!-- MENU LATERAL -->
+<div class="sidebar" id="menuLateral">
+    <button class="fechar-menu" onclick="fecharMenu()">✕</button>
+
+    <a href="file:///D:/reset/Cabe%C3%A7a.html#">Home</a>
+    <a href="file:///D:/reset/Cabe%C3%A7a.html#servicos">Especialidades</a>
+    <a href="file:///D:/reset/Cabe%C3%A7a.html#sobre">Sobre</a>
+    <a href="file:///D:/reset/equipe.html">Equipe</a>
+    <a href="file:///D:/reset/contato.html">Contato</a>
+    <a href="file:///D:/reset/agendamento.html">Buscar ajuda</a>
+</div>
+
+
+
+    <section class="hero">
+        <div class="hero-content">
+          <span class="hero-label">Clínica de Apoio à Ludopatia</span>
+            <h1>Um novo começo começa hoje.</h1>
+            <p class="descricao">
+                A Reset é uma empresa que oferece acolhimento com apoio psicológico e acompanhamento especializado, para pessoas que 
+                enfrentam a ludopatia e desejam retomar o controle da própria vida!
+            </p>
+            <div class="hero-buttons">
+                <a href="file:///D:/reset/agendamento.html" class="hero-btn-primary">Preciso de ajuda</a>
+                <a href="file:///D:/reset/Cabe%C3%A7a.html#sobre" class="hero-btn-secondary">Saiba mais</a>
+            </div>
+            <div class="hero-pacientes">
+    <img src="./RESET - Área do Paciente_files/zago.png" alt="">
+    <img src="./RESET - Área do Paciente_files/yanprincess.png" alt="">
+    <img src="./RESET - Área do Paciente_files/emily.jpeg" alt="">
+    <img src="./RESET - Área do Paciente_files/memespiderus.jpg" alt="">
+
+    <div class="pacientes-texto">
+        <strong>+2.000 pacientes</strong>
+        <span>confiam na RESET</span>
+    </div>  
+</div>
+        </div>
+        
+        <div class="hero-image">
+            <div class="slideshow-calmo">
+                <img src="./RESET - Área do Paciente_files/photo-1506744038136-46273834b3fb" alt="Paisagem Calma 1">
+                <img src="./RESET - Área do Paciente_files/photo-1475924156734-496f6cac6ec1" alt="Paisagem Calma 2">
+                <img src="./RESET - Área do Paciente_files/photo-1470071459604-3b5ec3a7fe05" alt="Paisagem Calma 3">
+                <img src="./RESET - Área do Paciente_files/sofa.avif" alt="Paisagem Calma 4">
+            
+            </div>
+        </div>
+    </section>
+<!-- =========================================
+PLANOS
+========================================= -->
+<section id="planos" class="planos-section">
+
+    <div class="section-header" style="margin: 0 auto 50px; text-align: center;">
+        <span class="section-label">Invista em você</span>
+
+        <h2>Conheça nossos planos</h2>
+
+        <p>
+            Todos os planos oferecem acesso completo a 9 encontros mensais:
+            2 aulas de Ateliê,
+            2 de Ed. Financeira,
+            3 aulas de Yoga
+            e 2 sessões de Psicólogo.
+        </p>
+    </div>
+
+    <div class="planos-grid">
+
+        <!-- PLANO MENSAL -->
+        <div class="card-plano">
+
+            <span class="badge-desconto">5% OFF</span>
+
+            <h3>Mensal</h3>
+
+            <div class="plano-preco">
+                R$ 1.615<span>,00</span>
+            </div>
+
+            <ul class="lista-beneficios">
+                <li>2 Aulas de Ateliê por mês</li>
+                <li>2 Aulas de Educação Financeira</li>
+                <li>2 Sessões de Psicólogo individual</li>
+                <li>3 Aulas de Yoga por mês</li>
+                <li>Acesso à emergência emocional</li>
+            </ul>
+
+            <a href="file:///D:/reset/Cabe%C3%A7a.html#" class="btn-plano">
+                Assinar Mensal
+            </a>
+
+        </div>
+
+        <!-- PLANO SEMESTRAL -->
+        <div class="card-plano plano-destaque">
+
+            <span class="badge-desconto">15% OFF</span>
+
+            <h3>Semestral</h3>
+
+            <div class="plano-preco">
+                R$ 9.180<span>,00</span>
+            </div>
+
+            <ul class="lista-beneficios">
+                <li>2 Aulas de Ateliê por mês</li>
+                <li>2 Aulas de Educação Financeira</li>
+                <li>2 Sessões de Psicólogo individual</li>
+                <li>3 Aulas de Yoga por mês</li>
+                <li>Acesso prioritário a eventos</li>
+            </ul>
+
+            <a href="file:///D:/reset/Cabe%C3%A7a.html#" class="btn-plano primario">
+                Assinar Semestral
+            </a>
+
+        </div>
+
+        <!-- PLANO ANUAL -->
+        <div class="card-plano">
+
+            <span class="badge-desconto">20% OFF</span>
+
+            <h3>Anual</h3>
+
+            <div class="plano-preco">
+                R$ 16.320<span>,00</span>
+            </div>
+
+            <ul class="lista-beneficios">
+                <li>2 Aulas de Ateliê por mês</li>
+                <li>2 Aulas de Educação Financeira</li>
+                <li>2 Sessões de Psicólogo individual</li>
+                <li>3 Aulas de Yoga por mês</li>
+                <li>Maior economia para o tratamento</li>
+            </ul>
+
+            <a href="file:///D:/reset/Cabe%C3%A7a.html#" class="btn-plano">
+                Assinar Anual
+            </a>
+
+        </div>
+
+    </div>
+</section>
+    <section id="servicos" class="servicos">
+        <div class="section-header">
+            <span class="section-label">NOSSOS SERVIÇOS</span>
+            <h2>Especialidades</h2>
+            <p>Cuidado completo para sua saúde emocional com profissionais especializados.</p>
+        </div>
+
+        <div class="servicos-grid">
+            <div class="card-especialidade active">
+                <div class="icon-box icon-blue">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"></path>
+                        <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"></path>
+                    </svg>
+                </div>
+                <h3>Psicologia</h3>
+                <p>Atendimento clínico para ansiedade, autoestima, burnout e relacionamentos.</p>
+                <div class="tags">
+                    <span class="tag">Ansiedade</span>
+                    <span class="tag">Autoestima</span>
+                    <span class="tag">Burnout</span>
+                    <span class="tag">Relacionamentos</span>
+                </div>
+            </div>
+
+            <div class="card-especialidade">
+                <div class="icon-box icon-green">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"></path>
+                        <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"></path>
+                        <circle cx="20" cy="10" r="2"></circle>
+                    </svg>
+                </div>
+                <h3>Psiquiatria</h3>
+                <p>Acompanhamento clínico, tratamento emocional e suporte medicamentoso.</p>
+                <div class="tags">
+                    <span class="tag">Acompanhamento</span>
+                    <span class="tag">Tratamento</span>
+                    <span class="tag">Medicamentoso</span>
+                </div>
+            </div>
+
+            <div class="card-especialidade">
+                <div class="icon-box icon-orange">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h3>Terapia Familiar</h3>
+                <p>Resolução de conflitos, mediação emocional e fortalecimento de vínculos.</p>
+                <div class="tags">
+                    <span class="tag">Conflitos</span>
+                    <span class="tag">Mediação</span>
+                    <span class="tag">Vínculos</span>
+                </div>
+            </div>
+
+            <div class="card-especialidade">
+                <div class="icon-box icon-red">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <h3>Emergência Emocional</h3>
+                <p>Suporte imediato e acolhimento online para momentos de crise.</p>
+                <div class="tags">
+                    <span class="tag">Suporte Imediato</span>
+                    <span class="tag">Acolhimento</span>
+                </div>
+            </div>
+
+            <div class="card-especialidade">
+                <div class="icon-box icon-dark">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                        <path d="M9 22v-4h6v4"></path>
+                        <path d="M8 6h.01"></path>
+                        <path d="M16 6h.01"></path>
+                        <path d="M12 6h.01"></path>
+                        <path d="M12 10h.01"></path>
+                        <path d="M12 14h.01"></path>
+                        <path d="M16 10h.01"></path>
+                        <path d="M16 14h.01"></path>
+                        <path d="M8 10h.01"></path>
+                        <path d="M8 14h.01"></path>
+                    </svg>
+                </div>
+                <h3>Bem-estar Corporativo</h3>
+                <p>Programas empresariais de saúde emocional no trabalho.</p>
+                <div class="tags">
+                    <span class="tag">Empresarial</span>
+                    <span class="tag">Saúde no Trabalho</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section class="carrossel-reset">
+
+  <h2>Um pouco dos nossos profissionais!</h2>
+
+  <div class="slider">
+    <div class="slide-track">
+
+      <div class="slide-card">
+          <img src="./RESET - Área do Paciente_files/Alicemédica.jpeg" alt="Dra. Alice">
+          <div class="slide-info">
+              <h4>Dra. Alice</h4>
+              <p>Psiquiatria</p>
+          </div>
+      </div>
+
+      <div class="slide-card">
+          <img src="./RESET - Área do Paciente_files/Bernardomédico.jpeg" alt="Dr. Bernardo">
+          <div class="slide-info">
+              <h4>Dr. Bernardo</h4>
+              <p>Psicologia Clínica</p>
+          </div>
+      </div>
+
+      <div class="slide-card">
+          <img src="./RESET - Área do Paciente_files/Brunomédico.jpeg" alt="Dr. Bruno">
+          <div class="slide-info">
+              <h4>Dr. Bruno</h4>
+              <p>Especialidade do Bruno</p>
+          </div>
+      </div>
+
+      <div class="slide-card">
+          <img src="./RESET - Área do Paciente_files/hellenmédica.jpeg" alt="Dra. Hellen">
+          <div class="slide-info">
+              <h4>Dra. Hellen</h4>
+              <p>Especialidade da Hellen</p>
+          </div>
+      </div>
+
+      <div class="slide-card">
+          <img src="./RESET - Área do Paciente_files/Kaikyjegue.jpeg" alt="Dr. Kaiky">
+          <div class="slide-info">
+              <h4>Dr. Kaiky</h4>
+              <p>Especialidade do Kaiky</p>
+          </div>
+      </div>
+
+      <div class="slide-card">
+          <img src="./RESET - Área do Paciente_files/Yanmédico.jpeg" alt="Dr. Yan">
+          <div class="slide-info">
+              <h4>Dr. Yan</h4>
+              <p>Especialidade do Yan</p>
+          </div>
+      </div>
+
+      <div class="slide-card">
+          <img src="./RESET - Área do Paciente_files/Alicemédica.jpeg" alt="Dra. Alice">
+          <div class="slide-info">
+              <h4>Dra. Alice</h4>
+              <p>Psiquiatria</p>
+          </div>
+      </div>
+
+      <div class="slide-card">
+          <img src="./RESET - Área do Paciente_files/Bernardomédico.jpeg" alt="Dr. Bernardo">
+          <div class="slide-info">
+              <h4>Dr. Bernardo</h4>
+              <p>Psicologia Clínica</p>
+          </div>
+      </div>
+
+      <div class="slide-card">
+          <img src="./RESET - Área do Paciente_files/Brunomédico.jpeg" alt="Dr. Bruno">
+          <div class="slide-info">
+              <h4>Dr. Bruno</h4>
+              <p>Especialidade do Bruno</p>
+          </div>
+      </div>
+
+      <div class="slide-card">
+          <img src="./RESET - Área do Paciente_files/hellenmédica.jpeg" alt="Dra. Hellen">
+          <div class="slide-info">
+              <h4>Dra. Hellen</h4>
+              <p>Especialidade da Hellen</p>
+          </div>
+      </div>
+
+      <div class="slide-card">
+          <img src="./RESET - Área do Paciente_files/Kaikyjegue.jpeg" alt="Dr. Kaiky">
+          <div class="slide-info">
+              <h4>Dr. Kaiky</h4>
+              <p>Especialidade do Kaiky</p>
+          </div>
+      </div>
+
+      <div class="slide-card">
+          <img src="./RESET - Área do Paciente_files/Yanmédico.jpeg" alt="Dr. Yan">
+          <div class="slide-info">
+              <h4>Dr. Yan</h4>
+              <p>Especialidade do Yan</p>
+          </div>
+      </div>
+
+    </div>
+  </div></section>
+
+    <footer class="site-footer" id="contato">
+        <div class="footer-container">
+            <div class="footer-col brand-col">
+                <div class="footer-logo">
+                    <img src="./RESET - Área do Paciente_files/Centro De Apoio à Ludopatia (2).png" alt="Logo da Empresa" class="footer-logo-image">
+                </div>
+                <p>Seu recomeço começa aqui. Cuidado emocional com tecnologia e humanidade.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>NAVEGAÇÃO</h4>
+                <ul>
+                    <li><a href="file:///D:/reset/Cabe%C3%A7a.html#">Home</a></li>
+                    <li><a href="file:///D:/reset/Cabe%C3%A7a.html#servicos">Especialidades</a></li>
+                    <li><a href="file:///D:/reset/Cabe%C3%A7a.html#sobre">Sobre</a></li>
+                    <li><a href="file:///D:/reset/equipe.html">Equipe</a></li>
+                    <li><a href="file:///D:/reset/contato.html">Contato</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>SERVIÇOS</h4>
+                <ul>
+                    <li><a href="file:///D:/reset/Cabe%C3%A7a.html#">Psicologia Clínica</a></li>
+                    <li><a href="file:///D:/reset/Cabe%C3%A7a.html#">Psiquiatria</a></li>
+                    <li><a href="file:///D:/reset/Cabe%C3%A7a.html#">Terapia Familiar</a></li>
+                    <li><a href="file:///D:/reset/Cabe%C3%A7a.html#">Emergência Emocional</a></li>
+                    <li><a href="file:///D:/reset/Cabe%C3%A7a.html#">Bem-estar Corporativo</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col contact-col">
+                <h4>CONTATO</h4>
+                <ul>
+                    <li>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        (21) 99876-5432
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        centrodeapoioreset@gmail.com
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        Estr. do Pontal, 2327 - Recreio dos Bandeirantes, Rio de Janeiro - RJ, 22790-877
+                    </li>
+                   <a href="https://www.instagram.com/clinica.reset_/" target="_blank">
+                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                   <path d="M16 11.37a4 4 0 1 1-2.83-3.46 4 4 0 0 1 2.83 3.46z"></path>
+                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                   </svg>
+                    @clinica.reset_
+                   </a> 
+
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 RESET — Centro Integrado de Apoio e Saúde Mental</p>
+            <p>Feito com <span style="color:#3B82F6;">💙</span> para seu bem-estar</p>
+        </div>
+    </footer>
+
+    <div class="chat-button" onclick="toggleChat()">
+        <svg viewBox="0 0 24 24">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">Reset • Apoio à Ludopatia</div>
+        <div class="chat-messages" id="messages">
+            <div class="message bot">
+                Olá, eu sou o assistente da Reset 💙<br><br>
+                Estou aqui para te ouvir e ajudar com questões relacionadas ao jogo compulsivo.
+            </div>
+            <div class="message bot">Você está buscando ajuda para você ou para alguém próximo?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Escreva aqui...">
+            <button onclick="sendMessage()">➤</button>
+        </div>
+        <button class="close-btn" onclick="toggleChat()">✕</button>
+    </div>
+
+    <script>
+
+
+    // Funções para abrir e fechar a barra lateral
+    function abrirMenu() {
+        document.getElementById("menuLateral").classList.add("aberta");
+        document.getElementById("menuOverlay").classList.add("ativo");
+    }
+
+    function fecharMenu() {
+        document.getElementById("menuLateral").classList.remove("aberta");
+        document.getElementById("menuOverlay").classList.remove("ativo");
+    }
+
+    //código do chatbot
+
+        function toggleChat() {
+            const chat = document.getElementById("chatBox");
+            chat.classList.toggle("active");
+        }
+
+        function sendMessage() {
+            const input = document.getElementById("userInput");
+            const text = input.value.trim();
+            if (text === "") return;
+
+            addMessage(text, "user");
+            input.value = "";
+
+            setTimeout(() => { botResponse(text); }, 600);
+        }
+
+        function addMessage(text, type) {
+            const msgContainer = document.getElementById("messages");
+            const msg = document.createElement("div");
+            msg.classList.add("message", type);
+            msg.innerHTML = text;
+            msgContainer.appendChild(msg);
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+        }
+
+        function botResponse(userText) {
+            let response = "Entendo. Você pode me contar um pouco mais?";
+            if (userText.toLowerCase().includes("ajuda")) {
+                response = "Buscar ajuda já é um passo muito importante 💙";
+            }
+            if (userText.toLowerCase().includes("tratamento")) {
+                response = "Temos acompanhamento psicológico e apoio contínuo.";
+            }
+            if (userText.toLowerCase().includes("familia")) {
+                response = "Também ajudamos familiares e pessoas próximas.";
+            }
+            addMessage(response, "bot");
+        }
+
+        document.getElementById("userInput").addEventListener("keypress", function (e) {
+            if (e.key === "Enter") { sendMessage(); }
+        });
+    </script>
+
+
+</body></html>
